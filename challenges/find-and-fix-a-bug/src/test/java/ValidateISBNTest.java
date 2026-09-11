@@ -61,6 +61,42 @@ class ValidateISBNTest {
 				});
 	}
 	
+	@Test
+	public void nullInputThrowsException() {
+		ValidateISBN validator = new ValidateISBN();
+		assertThrows(NumberFormatException.class, 
+				() -> {
+					validator.checkISBN(null);
+				});
+	}
+	
+	@Test
+	public void emptyStringIsNotAllowed() {
+		ValidateISBN validator = new ValidateISBN();
+		assertThrows(NumberFormatException.class, 
+				() -> {
+					validator.checkISBN("");
+				});
+	}
+	
+	@Test
+	public void ISBN13WithNonNumericCharactersIsNotAllowed() {
+		ValidateISBN validator = new ValidateISBN();
+		assertThrows(NumberFormatException.class, 
+				() -> {
+					validator.checkISBN("978185326008X");  // Valid format but has X (only allowed in ISBN-10)
+				});
+	}
+	
+	@Test
+	public void XInWrongPositionForISBN10IsNotAllowed() {
+		ValidateISBN validator = new ValidateISBN();
+		// X must be in position 9 (last position), not earlier
+		assertThrows(NumberFormatException.class, 
+				() -> {
+					validator.checkISBN("X123456789");
+				});
+	}
 	
 }
 
