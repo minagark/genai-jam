@@ -8,14 +8,16 @@ public class PrimeGenerator {
     public List<BigInteger> getPrimes(int size) {
 
         System.out.println("About to find " + size + " primes.");
-
-       List<BigInteger> primes = new ArrayList<>();
+    
+        List<BigInteger> primes = java.util.stream.IntStream.range(0, size)
+            .parallel()
+            .mapToObj(i -> new BigInteger(
+                2000, 
+                java.util.concurrent.ThreadLocalRandom.current()
+            ).nextProbablePrime())
+            .collect(java.util.stream.Collectors.toList());
         
-        for (int i = 0; i < size; i++) {
-            primes.add(new BigInteger(2000, new Random()).nextProbablePrime());
-        }
-
         System.out.println("Found all " + primes.size() + " primes.");
-        return primes;          
+        return primes;
     }
 }
