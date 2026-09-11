@@ -16,11 +16,20 @@ This application is a Maven-based Spring application that stores CompactDisc obj
 
 (Exact endpoint paths and JSON request bodies are provided in the rest/*.rest files in this repo.)
 
-## How to deploy this project
-Prerequisites: JDK (11+ recommended), Maven.
+### Prerequisites
+- A running relational database (H2, MySQL, PostgreSQL, etc.)
+- Database name, username, and password
 
+### Steps
+1. Create your database and user.
+2. Execute the DDL script:
+   - `sql/createTables.sql` — creates the CompactDisc and Track tables
+3. Configure connection in `src/main/resources/application.properties`:
+
+## How to deploy this project
 From project root (Windows):
 - Run from source:
+  - Make sure you are in the right directory: genai-jam/challenges/no-readme
   - Command Prompt:
     - mvn spring-boot:run
   - PowerShell:
@@ -42,8 +51,7 @@ Notes:
 - API docs / exploration: Swagger is configured (see SwaggerConfig). Common URL: http://localhost:8080/swagger-ui.html or http://localhost:8080/swagger-ui/index.html (check startup logs for exact path).
 - Static UI: exercise the API via the pages under http://localhost:8080/ to confirm behavior.
 - Database: use the SQL in sql/createTables.sql to create or inspect schema; connect with any DB client to check persisted rows.
-- Process/port checks: use standard OS tools (Windows: netstat /tasklist, Resource Monitor).
-- (Optional) Add Spring Boot Actuator for richer health/metrics endpoints (/actuator/health, /actuator/metrics) — this requires adding the dependency and exposing endpoints (not included in this repo).
+
 
 ## Useful files to inspect
 - rest/postcd.rest, rest/deletecd.rest — example HTTP requests for create/delete operations.  
