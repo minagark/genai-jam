@@ -7,6 +7,11 @@ public class ValidateISBN {
 
 	public boolean checkISBN(String isbn) {
 
+		// *Validate null input to prevent NullPointerException
+		if (isbn == null) {
+			throw new NumberFormatException("ISBN cannot be null");
+		}
+
 		if (isbn.length() == LONG_ISBN_LENGTH) {
 			return isThisAValidLongISBN(isbn);
 		}
@@ -26,11 +31,12 @@ public class ValidateISBN {
 					total += 10;
 				}
 				else {
-					throw new NumberFormatException("ISBN numbers can only contain numeric digits");
+					throw new NumberFormatException("ISBN-10 can only contain numeric digits (except 'X' at the end)");
 				}
 			}
 			else {
-				total += isbn.charAt(i) * (SHORT_ISBN_LENGTH -i);
+				// *Convert character to digit value (subtract ASCII '0' to get 0-9 instead of 48-57)
+				total += (isbn.charAt(i) - '0') * (SHORT_ISBN_LENGTH -i);
 			}
 		}
 
@@ -41,11 +47,17 @@ public class ValidateISBN {
 		int total = 0;
 		
 		for (int i = 0; i < LONG_ISBN_LENGTH; i++) {
+			// *Validate that all characters are digits (was missing in original)
+			if (!Character.isDigit(isbn.charAt(i))) {
+				throw new NumberFormatException("ISBN-13 can only contain numeric digits");
+			}
+			// *Convert character to digit value (subtract ASCII '0') - same bug as ISBN-10 had
+			int digit = isbn.charAt(i) - '0';
 			if (i % 2 == 0) {
-				total += isbn.charAt(i);
+				total += digit;  // Even positions: add digit value
 			}
 			else {
-				total += isbn.charAt(i) * 3;
+				total += digit * 3;  // Odd positions: add digit value × 3
 			}
 		}
 		return (total % LONG_ISBN_MULTIPLIER == 0);
