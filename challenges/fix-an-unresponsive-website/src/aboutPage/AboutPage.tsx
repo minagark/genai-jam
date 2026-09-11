@@ -8,7 +8,7 @@ const AboutPage = () => {
 
     const handleClick = () => {
         startTransition(() => {
-            setShowCredits(!showCredits);
+            setShowCredits((previous) => !previous);
         });
     }
 
