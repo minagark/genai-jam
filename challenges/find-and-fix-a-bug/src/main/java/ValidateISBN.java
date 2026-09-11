@@ -7,7 +7,7 @@ public class ValidateISBN {
 
 	public boolean checkISBN(String isbn) {
 
-		// *Validate null input to prevent NullPointerException
+		// *Validate null input to prevent NullPointerException(crashes)
 		if (isbn == null) {
 			throw new NumberFormatException("ISBN cannot be null");
 		}
@@ -37,6 +37,7 @@ public class ValidateISBN {
 			else {
 				// *Convert character to digit value (subtract ASCII '0' to get 0-9 instead of 48-57)
 				total += (isbn.charAt(i) - '0') * (SHORT_ISBN_LENGTH -i);
+				//(digit₁ × 10) + (digit₂ × 9) + (digit₃ × 8) + ...
 			}
 		}
 

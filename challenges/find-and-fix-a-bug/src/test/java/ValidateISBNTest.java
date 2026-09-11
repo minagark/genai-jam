@@ -61,7 +61,7 @@ class ValidateISBNTest {
 				});
 	}
 	
-	@Test
+	@Test // Checks that null input throws an exception
 	public void nullInputThrowsException() {
 		ValidateISBN validator = new ValidateISBN();
 		assertThrows(NumberFormatException.class, 
@@ -70,7 +70,7 @@ class ValidateISBNTest {
 				});
 	}
 	
-	@Test
+	@Test // Checks that empty string throws an exception
 	public void emptyStringIsNotAllowed() {
 		ValidateISBN validator = new ValidateISBN();
 		assertThrows(NumberFormatException.class, 
@@ -79,16 +79,16 @@ class ValidateISBNTest {
 				});
 	}
 	
-	@Test
+	@Test // Checks that ISBN-13 with non-numeric characters throws an exception
 	public void ISBN13WithNonNumericCharactersIsNotAllowed() {
 		ValidateISBN validator = new ValidateISBN();
 		assertThrows(NumberFormatException.class, 
 				() -> {
-					validator.checkISBN("978185326008X");  // Valid format but has X (only allowed in ISBN-10)
+					validator.checkISBN("978185326008C");  // Valid format but has C (non-numeric character)
 				});
 	}
 	
-	@Test
+	@Test // Checks that an ISBN-10 with 'X' in the wrong position throws an exception
 	public void XInWrongPositionForISBN10IsNotAllowed() {
 		ValidateISBN validator = new ValidateISBN();
 		// X must be in position 9 (last position), not earlier
